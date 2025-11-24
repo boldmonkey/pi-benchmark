@@ -1,0 +1,11 @@
+[package]
+name = "pi-benchmark"
+version = "0.1.0"
+edition = "2021"
+description = "Simple cross-platform PI benchmark with single-threaded Leibniz and multi-threaded Monte Carlo modes"
+license = "MIT OR Apache-2.0"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1

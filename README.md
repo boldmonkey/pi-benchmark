@@ -8,7 +8,7 @@ This is a hobby project meant for learning. Results are not intended for profess
 
 ## Requirements
 - Rust toolchain (tested with stable, install via https://rustup.rs/)
-- macOS or Linux
+- macOS, Linux, or Windows
 
 ## Quick start
 ```bash
@@ -18,16 +18,30 @@ cargo run --release -- single
 # Monte Carlo (default 200,000,000 samples, auto thread count)
 cargo run --release -- monte
 ```
+On Windows PowerShell, you can also run the helper scripts:
+```powershell
+.\scripts\run_single.ps1
+.\scripts\run_monte.ps1
+```
 
 ## Scripts for easy runs
-- `scripts/run_single.sh` — runs the Leibniz benchmark. Override iterations with `PI_ITERATIONS`.
-- `scripts/run_monte.sh` — runs the Monte Carlo benchmark. Override samples/threads/seed with `PI_SAMPLES`, `PI_THREADS`, `PI_SEED`.
-- `scripts/run_all.sh` — runs both with their defaults.
+- Bash (macOS/Linux):
+  - `scripts/run_single.sh` — runs the Leibniz benchmark. Override iterations with `PI_ITERATIONS`.
+  - `scripts/run_monte.sh` — runs the Monte Carlo benchmark. Override samples/threads/seed with `PI_SAMPLES`, `PI_THREADS`, `PI_SEED`.
+  - `scripts/run_all.sh` — runs both with their defaults.
+- PowerShell (Windows):
+  - `scripts/run_single.ps1` — runs the Leibniz benchmark. Override iterations with `PI_ITERATIONS`.
+  - `scripts/run_monte.ps1` — runs the Monte Carlo benchmark. Override samples/threads/seed with `PI_SAMPLES`, `PI_THREADS`, `PI_SEED`.
+  - `scripts/run_all.ps1` — runs both with their defaults.
 
 Examples:
 ```bash
 PI_ITERATIONS=75000000 ./scripts/run_single.sh
 PI_SAMPLES=300000000 PI_THREADS=8 ./scripts/run_monte.sh
+```
+```powershell
+$env:PI_ITERATIONS=75000000; .\scripts\run_single.ps1
+$env:PI_SAMPLES=300000000; $env:PI_THREADS=8; .\scripts\run_monte.ps1
 ```
 
 ## CLI usage

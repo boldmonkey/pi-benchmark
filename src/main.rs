@@ -7,8 +7,9 @@ use std::thread;
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 use sysinfo::System;
 
-const DEFAULT_LEIBNIZ_ITERATIONS: u64 = 50_000_000;
-const DEFAULT_MONTE_CARLO_SAMPLES: u64 = 200_000_000;
+// Defaults tuned for ~30s on a modern desktop; adjust with flags/env if too long/short.
+const DEFAULT_LEIBNIZ_ITERATIONS: u64 = 30_000_000_000;
+const DEFAULT_MONTE_CARLO_SAMPLES: u64 = 150_000_000_000;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 struct BenchmarkResult {

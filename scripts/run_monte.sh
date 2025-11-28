@@ -4,7 +4,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="${SCRIPT_DIR%/scripts}"
 
-SAMPLES="${PI_SAMPLES:-200000000}"
+SAMPLES="${PI_SAMPLES:-150000000000}"
 THREADS="${PI_THREADS:-}"
 SEED="${PI_SEED:-}"
 
@@ -15,7 +15,7 @@ Usage: run_monte.sh [--help]
 Runs the multi-threaded Monte Carlo PI benchmark via `cargo run --release`.
 
 Environment variables:
-  PI_SAMPLES   Total random points to generate (default: 200000000)
+  PI_SAMPLES   Total random points to generate (default: 150000000000)
   PI_THREADS   Optional thread count override (default: system parallelism)
   PI_SEED      Optional RNG seed for reproducibility
 

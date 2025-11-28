@@ -12,7 +12,7 @@ Usage: run_monte.ps1 [-Help]
 Runs the multi-threaded Monte Carlo PI benchmark via `cargo run --release`.
 
 Environment variables:
-  PI_SAMPLES   Total random points to generate (default: 200000000)
+  PI_SAMPLES   Total random points to generate (default: 150000000000)
   PI_THREADS   Optional thread count override (default: system parallelism)
   PI_SEED      Optional RNG seed for reproducibility
 
@@ -30,7 +30,7 @@ if ($Help -or ($args -and $args[0] -in @("-h", "--help"))) {
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $projectRoot = Split-Path -Parent $scriptDir
 
-$samples = if ($env:PI_SAMPLES) { $env:PI_SAMPLES } else { "200000000" }
+$samples = if ($env:PI_SAMPLES) { $env:PI_SAMPLES } else { "150000000000" }
 $threads = $env:PI_THREADS
 $seed = $env:PI_SEED
 

@@ -12,10 +12,10 @@ This is a hobby project meant for learning. Results are not intended for profess
 
 ## Quick start
 ```bash
-# Single-threaded Leibniz (default 50,000,000 iterations)
+# Single-threaded Leibniz (default 30,000,000,000 iterations)
 cargo run --release -- single
 
-# Monte Carlo (default 200,000,000 samples, auto thread count)
+# Monte Carlo (default 150,000,000,000 samples, auto thread count)
 cargo run --release -- monte
 ```
 On Windows PowerShell, you can also run the helper scripts:
@@ -54,12 +54,12 @@ Modes:
 ```
 
 ### Single-threaded options
-- `--iterations`, `-n` — number of series iterations (default: 50,000,000).
+- `--iterations`, `-n` — number of series iterations (default: 30,000,000,000).
 - `--save-json <path>` — append this run to a JSON file (created automatically if missing).
 - `--notes <text>` — attach free-form notes (e.g. "Before heatsink replacement").
 
 ### Monte Carlo options
-- `--samples`, `-s` — total random points to generate (default: 200,000,000).
+- `--samples`, `-s` — total random points to generate (default: 150,000,000,000).
 - `--threads`, `-t` — worker threads (default: system parallelism).
 - `--seed` — RNG seed for reproducible runs.
 - `--save-json <path>` — append this run to a JSON file (created automatically if missing).

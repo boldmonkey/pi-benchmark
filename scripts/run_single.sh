@@ -4,7 +4,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="${SCRIPT_DIR%/scripts}"
 
-ITERATIONS="${PI_ITERATIONS:-50000000}"
+ITERATIONS="${PI_ITERATIONS:-30000000000}"
 
 usage() {
   cat <<'EOF'
@@ -13,7 +13,7 @@ Usage: run_single.sh [--help]
 Runs the single-threaded Leibniz PI benchmark via `cargo run --release`.
 
 Environment variables:
-  PI_ITERATIONS   Number of iterations (default: 50000000)
+  PI_ITERATIONS   Number of iterations (default: 30000000000)
 
 Examples:
   ./scripts/run_single.sh

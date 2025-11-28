@@ -5,7 +5,7 @@ use std::fs;
 use std::path::Path;
 use std::thread;
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
-use sysinfo::{CpuExt, SystemExt};
+use sysinfo::System;
 
 const DEFAULT_LEIBNIZ_ITERATIONS: u64 = 50_000_000;
 const DEFAULT_MONTE_CARLO_SAMPLES: u64 = 200_000_000;
@@ -393,7 +393,7 @@ fn current_timestamp() -> String {
 }
 
 fn collect_system_profile() -> SystemProfile {
-    let mut sys = sysinfo::System::new_all();
+    let mut sys = System::new_all();
     sys.refresh_cpu();
     sys.refresh_memory();
 
@@ -405,12 +405,12 @@ fn collect_system_profile() -> SystemProfile {
         Some(total / sys.cpus().len() as u64)
     };
 
-    let os_name = sys.long_os_version().or_else(|| sys.name());
-    let hardware_guess = sys.hardware_name();
+    let os_name = System::long_os_version().or_else(System::name);
+    let hardware_guess = System::host_name().or_else(System::name);
 
     SystemProfile {
         os_name,
-        kernel_version: sys.kernel_version(),
+        kernel_version: System::kernel_version(),
         cpu_model,
         cpu_architecture: env::consts::ARCH.to_string(),
         cpu_frequency_mhz: avg_freq_mhz,

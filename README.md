@@ -57,6 +57,20 @@ Each saved JSON entry records the timestamp, work performed, PI estimate/error, 
 - **Leibniz**: Computes `pi` via `4 * Σ (-1)^k / (2k + 1)` in a tight, single-threaded loop. Heavy on floating point and branch prediction.
 - **Monte Carlo**: Generates random `(x, y)` pairs in the unit square across multiple threads and counts hits inside the unit circle. Each thread uses an independent LCG-based RNG seed.
 
+## How the methods approximate pi (built from high-school math)
+
+### Monte Carlo (random geometry)
+- Start with the geometric definition: for a circle of radius 1, the area is `pi * r^2 = pi`. A square that encloses the unit circle from `(0,0)` to `(1,1)` has area `1`.
+- The quarter-circle that fits in that square therefore has area `pi / 4`. If you drop points uniformly at random into the square, the fraction that lands inside the quarter-circle should approach the area ratio `pi/4`.
+- The code does exactly that: it generates uniform `x` and `y` in `[0, 1)`, counts a "hit" when `x^2 + y^2 <= 1`, and estimates `pi` as `4 * hits / samples`.
+- More samples reduce error roughly with `1/sqrt(n)`, not linearly, which is why the defaults use hundreds of millions of samples. Multi-threading simply splits the work to finish faster; it does not change the math.
+
+### Leibniz series (infinite sum)
+- From basic trigonometry, `tan(pi/4) = 1`. The Taylor series for `arctan(z)` at `z = 0` is `z - z^3/3 + z^5/5 - z^7/7 + ...`.
+- Setting `z = 1` gives `pi/4 = 1 - 1/3 + 1/5 - 1/7 + ...`, so `pi = 4 * Σ (-1)^k / (2k + 1)`.
+- This alternating series converges slowly: the error after `n` terms is about the size of the next term (~`1/(2n+3)`). That makes it a nice predictable, CPU-bound loop without memory pressure.
+- Because each term depends on the previous sum, this mode stays single-threaded and stresses branch prediction and floating point throughput rather than parallelism.
+
 ## Tips
 - Use `--release` for meaningful performance numbers (debug builds are much slower).
 - Pin thread counts (`--threads`) when comparing across machines to avoid differences from SMT or OS scheduling.

@@ -8,6 +8,28 @@ SAMPLES="${PI_SAMPLES:-200000000}"
 THREADS="${PI_THREADS:-}"
 SEED="${PI_SEED:-}"
 
+usage() {
+  cat <<'EOF'
+Usage: run_monte.sh [--help]
+
+Runs the multi-threaded Monte Carlo PI benchmark via `cargo run --release`.
+
+Environment variables:
+  PI_SAMPLES   Total random points to generate (default: 200000000)
+  PI_THREADS   Optional thread count override (default: system parallelism)
+  PI_SEED      Optional RNG seed for reproducibility
+
+Examples:
+  ./scripts/run_monte.sh
+  PI_THREADS=8 PI_SAMPLES=50000000 ./scripts/run_monte.sh
+EOF
+}
+
+if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
+  usage
+  exit 0
+fi
+
 if ! command -v cargo >/dev/null 2>&1; then
   echo "cargo not found. Install Rust from https://rustup.rs/ first." >&2
   exit 1

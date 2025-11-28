@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PI Benchmark Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3"></script>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>PI Benchmark Dashboard</h1>
+      <p class="subtitle">Visualize benchmark runs and system details</p>
+    </div>
+    <div class="badge">JSON-powered</div>
+  </header>
+
+  <main>
+    <section class="info-grid">
+      <div class="card">
+        <h2>Latest run</h2>
+        <p id="latest-run">Loading…</p>
+        <p id="latest-notes" class="muted"></p>
+      </div>
+      <div class="card">
+        <h2>System profile</h2>
+        <ul id="system-profile" class="key-values"></ul>
+      </div>
+      <div class="card">
+        <h2>Summary</h2>
+        <ul class="key-values">
+          <li><span>Total runs</span><strong id="total-runs">0</strong></li>
+          <li><span>Average throughput</span><strong id="avg-throughput">-</strong></li>
+          <li><span>Average error</span><strong id="avg-error">-</strong></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="chart-card card">
+      <div class="chart-header">
+        <h2>Throughput over time</h2>
+        <div class="legend" id="legend"></div>
+      </div>
+      <canvas id="throughputChart" height="120"></canvas>
+    </section>
+
+    <section class="card">
+      <div class="table-header">
+        <h2>All runs</h2>
+        <p class="muted">Sorted newest first</p>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Date (UTC)</th>
+              <th>Mode</th>
+              <th>Work</th>
+              <th>Estimate</th>
+              <th>Elapsed</th>
+              <th>Throughput</th>
+              <th>Error</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody id="runs-table"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Drop benchmark JSON files into <code>results/</code> before deploying to GitHub Pages. The workflow will aggregate them into <code>data/results.json</code>.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -41,11 +41,17 @@ Modes:
 
 ### Single-threaded options
 - `--iterations`, `-n` — number of series iterations (default: 50,000,000).
+- `--save-json <path>` — append this run to a JSON file (created automatically if missing).
+- `--notes <text>` — attach free-form notes (e.g. "Before heatsink replacement").
 
 ### Monte Carlo options
 - `--samples`, `-s` — total random points to generate (default: 200,000,000).
 - `--threads`, `-t` — worker threads (default: system parallelism).
 - `--seed` — RNG seed for reproducible runs.
+- `--save-json <path>` — append this run to a JSON file (created automatically if missing).
+- `--notes <text>` — attach free-form notes (e.g. "After fan swap").
+
+Each saved JSON entry records the timestamp, work performed, PI estimate/error, elapsed time, throughput, and a system profile (OS, CPU model/architecture/frequency, core counts, RAM, and a best-effort hardware guess). Existing files that contain a single JSON object are automatically upgraded to arrays when appending.
 
 ## What the modes do
 - **Leibniz**: Computes `pi` via `4 * Σ (-1)^k / (2k + 1)` in a tight, single-threaded loop. Heavy on floating point and branch prediction.
@@ -59,7 +65,14 @@ Modes:
 ## Project layout
 - `src/main.rs` — CLI and benchmark implementations.
 - `scripts/` — convenience runners for macOS/Linux shells.
+- `dashboard/` — static dashboard that renders aggregated JSON results.
+- `results/` — optional folder to collect run outputs before publishing to Pages.
 - `Cargo.toml` — crate metadata and release profile tuned for benchmarking (LTO, single codegen unit).
+
+## Dashboard & GitHub Pages
+- Save runs with `--save-json results/my-machine.json` to build a local collection (files are appended automatically).
+- The GitHub Actions workflow (`.github/workflows/pages.yml`) aggregates every JSON file under `results/` into `site/data/results.json` and publishes the dashboard to GitHub Pages. If no results are present, it falls back to `dashboard/data/sample_results.json` so the page still loads.
+- Open `dashboard/index.html` locally or visit your repository's Pages URL to explore tables and charts for all recorded runs.
 
 ## Testing
 ```bash

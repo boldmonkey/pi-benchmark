@@ -1,0 +1,48 @@
+[
+  {
+    "timestamp_utc": "2024-06-01T12:00:00.000Z",
+    "mode": "Single-threaded Leibniz",
+    "work_label": "Iterations",
+    "work_units": 50000000,
+    "pi_estimate": 3.1415925,
+    "absolute_error": 1.3e-7,
+    "elapsed_seconds": 18.5,
+    "throughput_per_second": 2702702.7,
+    "system": {
+      "os_name": "Ubuntu 22.04",
+      "kernel_version": "6.5.0",
+      "cpu_model": "Apple M2",
+      "cpu_architecture": "aarch64",
+      "cpu_frequency_mhz": 3200,
+      "logical_cores": 8,
+      "physical_cores": 4,
+      "total_memory_bytes": 17179869184,
+      "available_memory_bytes": 12000000000,
+      "hardware_type_guess": "2023 MacBook Air"
+    },
+    "notes": "Baseline run"
+  },
+  {
+    "timestamp_utc": "2024-07-15T08:30:00.000Z",
+    "mode": "Monte Carlo (8 threads)",
+    "work_label": "Samples",
+    "work_units": 200000000,
+    "pi_estimate": 3.14149,
+    "absolute_error": 0.000103,
+    "elapsed_seconds": 6.3,
+    "throughput_per_second": 31746031.75,
+    "system": {
+      "os_name": "Ubuntu 22.04",
+      "kernel_version": "6.5.0",
+      "cpu_model": "Apple M2",
+      "cpu_architecture": "aarch64",
+      "cpu_frequency_mhz": 3200,
+      "logical_cores": 8,
+      "physical_cores": 4,
+      "total_memory_bytes": 17179869184,
+      "available_memory_bytes": 11000000000,
+      "hardware_type_guess": "2023 MacBook Air"
+    },
+    "notes": "After thermal paste refresh"
+  }
+]

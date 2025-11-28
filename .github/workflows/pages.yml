@@ -1,0 +1,68 @@
+name: Deploy dashboard to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Prepare dashboard assets
+        run: |
+          mkdir -p site/data
+          python - <<'PY'
+          import json, glob, pathlib
+
+          files = glob.glob('results/*.json')
+          out = pathlib.Path('site/data/results.json')
+          out.parent.mkdir(parents=True, exist_ok=True)
+          records = []
+
+          for path in files:
+            with open(path, 'r', encoding='utf-8') as f:
+              data = json.load(f)
+            if isinstance(data, list):
+              records.extend(data)
+            else:
+              records.append(data)
+
+          if not records:
+            with open('dashboard/data/sample_results.json', 'r', encoding='utf-8') as f:
+              records = json.load(f)
+
+          out.write_text(json.dumps(records, indent=2), encoding='utf-8')
+          PY
+          cp -r dashboard/* site/
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

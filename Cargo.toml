@@ -5,6 +5,12 @@ edition = "2021"
 description = "Simple cross-platform PI benchmark with single-threaded Leibniz and multi-threaded Monte Carlo modes"
 license = "MIT OR Apache-2.0"
 
+[dependencies]
+chrono = { version = "0.4", features = ["serde"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+sysinfo = { version = "0.30", default-features = false, features = ["system"] }
+
 [profile.release]
 opt-level = 3
 lto = true

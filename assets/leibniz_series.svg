@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="320" viewBox="0 0 520 320">
+  <defs>
+    <style>
+      .bg { fill: #f7f9fb; }
+      .axis { stroke: #5b6470; stroke-width: 2; }
+      .pi-line { stroke: #c13b3a; stroke-width: 2; stroke-dasharray: 6 6; }
+      .poly { fill: none; stroke: #2c7be5; stroke-width: 3; }
+      .point { fill: #2c7be5; stroke: white; stroke-width: 1.5; }
+      .label { fill: #2c3440; font-family: monospace; font-size: 13px; }
+      .title { fill: #2c3440; font-size: 16px; font-weight: bold; }
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="520" height="320" rx="12" />
+  <text class="title" x="20" y="26">Leibniz partial sums (4 × Σ (-1)^k / (2k+1))</text>
+
+  <line class="axis" x1="60" y1="40" x2="60" y2="280" />
+  <line class="axis" x1="60" y1="280" x2="480" y2="280" />
+
+  <line class="pi-line" x1="60" y1="215.0" x2="480" y2="215.0" />
+  <text class="label" x="485" y="219">π ≈ 3.14159</text>
+
+  <polyline class="poly" points="
+    70,112
+    112,272
+    154,176
+    196,244.6
+    238,191.2
+    280,234.9
+    322,198
+    364,230
+    406,201.7
+    448,227
+  " />
+
+  <circle class="point" cx="70" cy="112" r="5" />
+  <circle class="point" cx="112" cy="272" r="5" />
+  <circle class="point" cx="154" cy="176" r="5" />
+  <circle class="point" cx="196" cy="244.6" r="5" />
+  <circle class="point" cx="238" cy="191.2" r="5" />
+  <circle class="point" cx="280" cy="234.9" r="5" />
+  <circle class="point" cx="322" cy="198" r="5" />
+  <circle class="point" cx="364" cy="230" r="5" />
+  <circle class="point" cx="406" cy="201.7" r="5" />
+  <circle class="point" cx="448" cy="227" r="5" />
+
+  <text class="label" x="46" y="290">0</text>
+  <text class="label" x="102" y="295">2</text>
+  <text class="label" x="144" y="295">4</text>
+  <text class="label" x="186" y="295">6</text>
+  <text class="label" x="228" y="295">8</text>
+  <text class="label" x="270" y="295">10</text>
+  <text class="label" x="312" y="295">12</text>
+  <text class="label" x="354" y="295">14</text>
+  <text class="label" x="396" y="295">16</text>
+  <text class="label" x="438" y="295">18</text>
+  <text class="label" x="472" y="295">k</text>
+
+  <text class="label" x="330" y="90">Oscillates around π</text>
+  <text class="label" x="330" y="110">Next-term error ≈ 1/(2k+3)</text>
+  <text class="label" x="70" y="130">start at 4</text>
+</svg>

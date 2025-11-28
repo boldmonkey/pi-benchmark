@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="340" viewBox="0 0 520 340">
+  <defs>
+    <style>
+      .bg { fill: #f7f9fb; }
+      .square { fill: #eef3ff; stroke: #3a5e9b; stroke-width: 2; }
+      .arc { fill: #d7e8ff; stroke: #3a5e9b; stroke-width: 2; }
+      .axis { stroke: #5b6470; stroke-width: 2; }
+      .label { fill: #2c3440; font-family: monospace; font-size: 13px; }
+      .point-in { fill: #2fa162; }
+      .point-out { fill: #c13b3a; }
+      .pi { fill: #2c3440; font-weight: bold; font-size: 16px; }
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="520" height="340" rx="12" />
+  <text class="pi" x="30" y="30">Monte Carlo area ratio</text>
+  <text class="label" x="360" y="40">Area(circle, r=1) = π</text>
+  <text class="label" x="360" y="60">Area(square) = 1</text>
+  <text class="label" x="360" y="80">Hit ratio → π/4</text>
+
+  <line class="axis" x1="60" y1="20" x2="60" y2="300" />
+  <line class="axis" x1="60" y1="300" x2="320" y2="300" />
+  <rect class="square" x="60" y="60" width="240" height="240" />
+  <path class="arc" d="M60 300 A240 240 0 0 1 300 60 L300 300 Z" />
+
+  <circle class="point-in" cx="160" cy="180" r="4" />
+  <circle class="point-in" cx="220" cy="120" r="4" />
+  <circle class="point-in" cx="260" cy="200" r="4" />
+  <circle class="point-in" cx="120" cy="240" r="4" />
+  <circle class="point-in" cx="200" cy="220" r="4" />
+  <circle class="point-in" cx="240" cy="150" r="4" />
+  <circle class="point-in" cx="140" cy="140" r="4" />
+
+  <circle class="point-out" cx="260" cy="90" r="4" />
+  <circle class="point-out" cx="280" cy="110" r="4" />
+  <circle class="point-out" cx="300" cy="200" r="4" />
+  <circle class="point-out" cx="200" cy="80" r="4" />
+  <circle class="point-out" cx="120" cy="90" r="4" />
+  <circle class="point-out" cx="300" cy="260" r="4" />
+
+  <text class="label" x="80" y="315">(0,0)</text>
+  <text class="label" x="285" y="315">(1,0)</text>
+  <text class="label" x="25" y="70">(0,1)</text>
+  <text class="label" x="322" y="84">unit quarter circle</text>
+  <text class="label" x="322" y="104">hits × 4 ≈ π</text>
+</svg>

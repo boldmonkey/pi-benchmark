@@ -71,19 +71,26 @@ Each saved JSON entry records the timestamp, work performed, PI estimate/error, 
 - **Leibniz**: Computes `pi` via `4 * Σ (-1)^k / (2k + 1)` in a tight, single-threaded loop. Heavy on floating point and branch prediction.
 - **Monte Carlo**: Generates random `(x, y)` pairs in the unit square across multiple threads and counts hits inside the unit circle. Each thread uses an independent LCG-based RNG seed.
 
-## How the methods approximate pi (built from high-school math)
+## How the methods approximate pi (built from first principles)
 
-### Monte Carlo (random geometry)
-- Start with the geometric definition: for a circle of radius 1, the area is `pi * r^2 = pi`. A square that encloses the unit circle from `(0,0)` to `(1,1)` has area `1`.
-- The quarter-circle that fits in that square therefore has area `pi / 4`. If you drop points uniformly at random into the square, the fraction that lands inside the quarter-circle should approach the area ratio `pi/4`.
-- The code does exactly that: it generates uniform `x` and `y` in `[0, 1)`, counts a "hit" when `x^2 + y^2 <= 1`, and estimates `pi` as `4 * hits / samples`.
-- More samples reduce error roughly with `1/sqrt(n)`, not linearly, which is why the defaults use hundreds of millions of samples. Multi-threading simply splits the work to finish faster; it does not change the math.
+![Monte Carlo quarter circle](assets/monte_carlo_quarter_circle.svg)
 
-### Leibniz series (infinite sum)
-- From basic trigonometry, `tan(pi/4) = 1`. The Taylor series for `arctan(z)` at `z = 0` is `z - z^3/3 + z^5/5 - z^7/7 + ...`.
-- Setting `z = 1` gives `pi/4 = 1 - 1/3 + 1/5 - 1/7 + ...`, so `pi = 4 * Σ (-1)^k / (2k + 1)`.
-- This alternating series converges slowly: the error after `n` terms is about the size of the next term (~`1/(2n+3)`). That makes it a nice predictable, CPU-bound loop without memory pressure.
-- Because each term depends on the previous sum, this mode stays single-threaded and stresses branch prediction and floating point throughput rather than parallelism.
+### Monte Carlo (geometry → probability)
+- Start with the definition of `pi`: it is the ratio of a circle's circumference to its diameter. For a unit circle (`r = 1`), the area formula `A = pi * r^2` collapses to `A = pi`.
+- Draw a unit square from `(0, 0)` to `(1, 1)`. The quarter of the unit circle that fits in the square has area `pi / 4`, while the square has area `1`. The probability that a uniformly random point lands inside the quarter-circle is therefore `pi / 4`.
+- The estimator mirrors that logic: generate uniform `x, y ∈ [0, 1)`, count a hit when `x^2 + y^2 <= 1`, and compute `pi ≈ 4 * hits / samples`. By the law of large numbers, the hit ratio converges to the true area ratio as samples grow.
+- Error shrinks with `1 / sqrt(n)` (a consequence of variance in a Bernoulli process), so cutting error in half requires roughly 4× more samples. The defaults are intentionally huge to get into the low-error regime and to provide a substantial workload.
+- The RNG is a tiny linear congruential generator (LCG) scrambled into the `f64` mantissa for speed. Each thread starts with a different seed to keep streams independent; threads simply split the total sample budget and sum their hit counts.
+- The diagram above shows the geometric setup: area ratio `→` probability `→` estimate.
+
+![Leibniz series partial sums](assets/leibniz_series.svg)
+
+### Leibniz series (algebra → calculus)
+- Start with the derivative identity `d/dx arctan(x) = 1 / (1 + x^2)`. Expanding `1 / (1 + x^2)` as a geometric series around `x = 0` gives `1 - x^2 + x^4 - x^6 + ...`. Integrating term-by-term yields the Taylor series `arctan(x) = x - x^3/3 + x^5/5 - x^7/7 + ...`.
+- Evaluating at `x = 1` uses the angle fact `arctan(1) = pi / 4`, producing `pi / 4 = 1 - 1/3 + 1/5 - 1/7 + ...`, or `pi = 4 * Σ (-1)^k / (2k + 1)`.
+- The alternating series test says the error after `n` terms is bounded by the magnitude of the next term (`~1/(2n+3)`). That is slow convergence, which makes this series a deterministic but heavy CPU workload: lots of adds, subtracts, and divides with minimal memory traffic.
+- Every term depends on the accumulated sum, so the computation is naturally single-threaded; the benchmark intentionally keeps it that way to stress branch prediction and floating-point throughput without parallelism.
+- The plot above shows the first few partial sums bouncing around `pi` and gradually closing in as more terms are added.
 
 ## Tips
 - Use `--release` for meaningful performance numbers (debug builds are much slower).
@@ -101,6 +108,7 @@ Each saved JSON entry records the timestamp, work performed, PI estimate/error, 
 - Save runs with `--save-json results/my-machine.json` to build a local collection (files are appended automatically).
 - The GitHub Actions workflow (`.github/workflows/pages.yml`) aggregates every JSON file under `results/` into `site/data/results.json` and publishes the dashboard to GitHub Pages. If no results are present, it falls back to `dashboard/data/sample_results.json` so the page still loads.
 - Open `dashboard/index.html` locally or visit your repository's Pages URL to explore tables and charts for all recorded runs.
+- To publish: push to `main` (or trigger the workflow manually). In the repo settings, enable GitHub Pages with the "GitHub Actions" source once; subsequent runs deploy automatically to the Pages environment.
 
 ## Testing
 ```bash
